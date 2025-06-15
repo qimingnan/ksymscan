@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+// import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:umeng_common_sdk/umeng_common_sdk.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui' as ui;
@@ -72,8 +73,8 @@ class PubMethodUtils {
   }
 
   static void scanPath(Barcode barcode) {
-    var parse = Uri.parse(barcode.code.toString());
-    launchUrl(parse);
+    // var parse = Uri.parse(barcode.code.toString());
+    // launchUrl(parse);
     // if (content.contains("tel")) {
     //   emailLaunchUri = Uri(
     //     scheme: 'tel',

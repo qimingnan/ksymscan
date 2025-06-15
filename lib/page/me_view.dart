@@ -116,9 +116,9 @@ class _MeViewPageState extends State<MeViewPage> {
               ),
             ),
           ),
-          SliverToBoxAdapter(
-            child: googleWidget(),
-          )
+          // SliverToBoxAdapter(
+          //   child: googleWidget(),
+          // )
         ],
       ),
     );

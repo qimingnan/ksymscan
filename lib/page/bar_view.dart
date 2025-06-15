@@ -35,12 +35,14 @@ class _BarCodeViewPageState extends State<BarCodeViewPage> {
   var selectTitleIndex = 0;
 
   final List<TextEditingController> editingController = [];
+  final List<FocusNode> focusNodes = [];
 
   @override
   void initState() {
     super.initState();
     for (int i = 0; i < 12; i++) {
       editingController.add(TextEditingController());
+      focusNodes.add(FocusNode());
     }
   }
 
@@ -134,6 +136,7 @@ class _BarCodeViewPageState extends State<BarCodeViewPage> {
         children: [
           _textField(
             editingController[selectTitleIndex],
+            focusNodes[selectTitleIndex],
             title[selectTitleIndex],
             hintTexts[selectTitleIndex],
             Icons.text_fields_outlined,
@@ -159,7 +162,9 @@ class _BarCodeViewPageState extends State<BarCodeViewPage> {
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
           return;
         }
-
+        for (var action in focusNodes) {
+          action.unfocus();
+        }
         var qrBarData = QrBarData();
         qrBarData.imgUrl = imageUrl[selectTitleIndex];
         qrBarData.title = title[selectTitleIndex];
@@ -168,7 +173,7 @@ class _BarCodeViewPageState extends State<BarCodeViewPage> {
         qrBarData.content = editingController[selectTitleIndex].text;
         qrBarData.contents = [editingController[selectTitleIndex].text];
         Application.addQrBarData(qrBarData);
-
+        FocusScope.of(context).unfocus();
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -184,6 +189,7 @@ class _BarCodeViewPageState extends State<BarCodeViewPage> {
 
   _textField(
     TextEditingController textEditingController,
+    FocusNode focusNodes,
     String label,
     String hintText,
     IconData iconData, {
@@ -195,6 +201,7 @@ class _BarCodeViewPageState extends State<BarCodeViewPage> {
       padding: const EdgeInsets.only(top: 10),
       child: TextFormField(
         controller: textEditingController,
+        focusNode: focusNodes,
         textInputAction: TextInputAction.next,
         keyboardType: textInputType,
         maxLines: maxLines,

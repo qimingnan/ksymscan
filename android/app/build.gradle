@@ -1,3 +1,8 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -26,18 +31,14 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0.5'
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 android {
     namespace "com.zy.ksymscan"
-    compileSdkVersion 34
-    ndkVersion flutter.ndkVersion
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
@@ -53,10 +54,12 @@ android {
         applicationId "com.zy.ksymscan"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
+//        versionCode = flutter.versionCode
+//        versionName = flutter.versionName
         multiDexEnabled true
 
         flavorDimensions "versionCode"
@@ -90,34 +93,37 @@ android {
         }
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
-            signingConfig signingConfigs.config
+            signingConfig signingConfigs.debug
         }
 
-        applicationVariants.all { variant ->
-            variant.outputs.all { output -> outputFileName = "app_v${flutterVersionName}_${flutterVersionCode}_${variant.buildType.name}.apk"
-            }
-        }
+//        applicationVariants.all { variant ->
+//            variant.outputs.all { output -> outputFileName = "app_v${flutterVersionName}_${flutterVersionCode}_${variant.buildType.name}.apk"
+//            }
+//        }
     }
 
+    buildFeatures {
+        buildConfig true
+    }
 
-    productFlavors {
-        pgyer {}   // 蒲公英
-        huawei {}       // 华为商店
-        google {}       // 谷歌商店
-        baidu {}        // 百度手机助手
-        tencent {}   // 应用宝
-        xiaomi {}   // 小米
-        oppo {}   // OPPO
-        vivo {}   // VIVO
-        s360 {}   // 360
-        lenovo {}   // 联想
-        aliuc {}   // 阿里UC
-        guanfang {}   // 官方包
-    }
-    productFlavors.all { flavor ->
-        // 友盟推送渠道包， UMENG_CHANNEL 是根据你AndroidManifest.xml来配置的，请看下面。
-        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
-    }
+//    productFlavors {
+//        pgyer {}   // 蒲公英
+//        huawei {}       // 华为商店
+//        google {}       // 谷歌商店
+//        baidu {}        // 百度手机助手
+//        tencent {}   // 应用宝
+//        xiaomi {}   // 小米
+//        oppo {}   // OPPO
+//        vivo {}   // VIVO
+//        s360 {}   // 360
+//        lenovo {}   // 联想
+//        aliuc {}   // 阿里UC
+//        guanfang {}   // 官方包
+//    }
+//    productFlavors.all { flavor ->
+//        // 友盟推送渠道包， UMENG_CHANNEL 是根据你AndroidManifest.xml来配置的，请看下面。
+//        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+//    }
 
     lintOptions {
         checkDependencies true
@@ -132,11 +138,4 @@ android {
 
 flutter {
     source '../..'
-}
-
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10') {
-        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
-    }
 }

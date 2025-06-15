@@ -101,7 +101,7 @@ class FlutterAppPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
             val packageInfo = it.packageManager.getPackageInfo(it.packageName, 0)
             val map = HashMap<String, String>()
             map["packageName"] = packageInfo.packageName
-            map["versionName"] = packageInfo.versionName
+            map["versionName"] = packageInfo.versionName ?: ""
             map["versionCode"] = "${packageInfo.versionCode}"
             map["channelId"] = getAppChannelId(context)
             result.success(map)

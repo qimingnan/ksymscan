@@ -33,14 +33,14 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
   var selectTitleIndex = 0;
 
   final List<TextEditingController> editingController = [];
-  StringBuffer content = StringBuffer("");
-  var contents = [];
+  final List<FocusNode> focusNodes = [];
 
   @override
   void initState() {
     super.initState();
     for (int i = 0; i < 18; i++) {
       editingController.add(TextEditingController());
+      focusNodes.add(FocusNode());
     }
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -152,6 +152,7 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
         children: [
           _textField(
             editingController[0],
+            focusNodes[0],
             S.of(context).labelText,
             S.of(context).hintText,
             Icons.text_fields_sharp,
@@ -166,12 +167,14 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
         children: [
           _textField(
             editingController[1],
+            focusNodes[1],
             S.of(context).labelName,
             S.of(context).hintTextName,
             Icons.account_box_outlined,
           ),
           _textField(
             editingController[2],
+            focusNodes[2],
             S.of(context).labelPhone,
             S.of(context).hintTextPhone,
             Icons.phone_android_outlined,
@@ -180,18 +183,21 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
           ),
           _textField(
             editingController[3],
+            focusNodes[3],
             S.of(context).labelFirm,
             S.of(context).hintTextFirm,
             Icons.location_on_outlined,
           ),
           _textField(
             editingController[4],
+            focusNodes[4],
             S.of(context).labelPosts,
             S.of(context).hintTextPosts,
             Icons.grade_outlined,
           ),
           _textField(
             editingController[5],
+            focusNodes[5],
             S.of(context).labelEmail,
             S.of(context).hintTextEmail,
             Icons.email_outlined,
@@ -200,6 +206,7 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
           ),
           _textField(
             editingController[6],
+            focusNodes[6],
             S.of(context).labelAddress,
             S.of(context).hintTextAddress,
             Icons.my_location,
@@ -213,6 +220,7 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
         children: [
           _textField(
             editingController[7],
+            focusNodes[7],
             S.of(context).labelEmail,
             S.of(context).hintTextEmail,
             Icons.email_outlined,
@@ -221,6 +229,7 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
           ),
           _textField(
             editingController[8],
+            focusNodes[8],
             S.of(context).labelEmailAdd,
             S.of(context).hintTextEmail,
             Icons.email_outlined,
@@ -229,12 +238,14 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
           ),
           _textField(
             editingController[9],
+            focusNodes[9],
             S.of(context).labelZhuTi,
             S.of(context).labelZhuTi,
             Icons.title_outlined,
           ),
           _textField(
             editingController[10],
+            focusNodes[10],
             S.of(context).labelText,
             S.of(context).hintText,
             Icons.text_fields_outlined,
@@ -247,6 +258,7 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
         children: [
           _textField(
             editingController[11],
+            focusNodes[11],
             S.of(context).labelPhone,
             S.of(context).hintTextPhone,
             Icons.phone_android_outlined,
@@ -261,6 +273,7 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
         children: [
           _textField(
             editingController[12],
+            focusNodes[12],
             S.of(context).labelUrl,
             S.of(context).hintTextUrl,
             Icons.link_outlined,
@@ -300,12 +313,14 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
           ),
           _textField(
             editingController[13],
+            focusNodes[13],
             S.of(context).labelWifiName,
             S.of(context).hintTextWifi,
             Icons.network_cell_outlined,
           ),
           _textField(
             editingController[14],
+            focusNodes[14],
             S.of(context).labelWifiPassword,
             S.of(context).hintTextPassword,
             Icons.password_outlined,
@@ -319,6 +334,7 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
         children: [
           _textField(
             editingController[15],
+            focusNodes[15],
             S.of(context).labelSjr,
             S.of(context).hintTextPhone,
             Icons.person,
@@ -327,6 +343,7 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
           ),
           _textField(
             editingController[16],
+            focusNodes[16],
             S.of(context).labelText,
             S.of(context).hintText,
             Icons.text_fields_sharp,
@@ -340,6 +357,7 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
         children: [
           _textField(
             editingController[17],
+            focusNodes[17],
             S.of(context).labelApp,
             S.of(context).hintTextUrl,
             Icons.link_outlined,
@@ -356,6 +374,8 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
         margin: EdgeInsets.only(top: 10, left: 20, right: 20),
         child: ElevatedButton(
           onPressed: () {
+            StringBuffer content = StringBuffer("");
+            var contents = [];
             content.clear();
             contents.clear();
             switch (selectTitleIndex) {
@@ -430,6 +450,9 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
                 contents.add(editingController[17].text);
                 break;
             }
+            for (var action in focusNodes) {
+              action.unfocus();
+            }
             var qrBarData = QrBarData();
             qrBarData.iconUrl = imageUrl[selectTitleIndex].codePoint;
             qrBarData.title = title[selectTitleIndex];
@@ -453,6 +476,7 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
 
   _textField(
     TextEditingController textEditingController,
+    FocusNode focusNodes,
     String label,
     String hintText,
     IconData iconData, {
@@ -463,6 +487,7 @@ class _QrCodeViewPageState extends State<QrCodeViewPage> {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: TextFormField(
+        focusNode: focusNodes,
         textInputAction: TextInputAction.done,
         controller: textEditingController,
         maxLines: maxLines,

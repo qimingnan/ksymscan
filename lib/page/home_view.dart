@@ -10,6 +10,7 @@ import '../utils/event_bus.dart';
 import '../widget/privacy_policy_dialog.dart';
 import 'history_view.dart';
 import 'me_view.dart';
+import 'scan/barcode_scanner_view.dart';
 import 'scan_view.dart';
 
 class HomeViewPage extends StatefulWidget {
@@ -77,7 +78,7 @@ class _HomeViewPageState extends State<HomeViewPage>
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ScanViewPage(),
+              builder: (context) => BarcodeScannerView(),
             ),
           );
         },
@@ -148,4 +149,6 @@ class _HomeViewPageState extends State<HomeViewPage>
       ),
     );
   }
+
+
 }

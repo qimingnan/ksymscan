@@ -68,31 +68,32 @@ class _HistoryViewPageState extends State<HistoryViewPage> {
   }
 
   Widget _buildItem(QrBarData qrBarData) {
-    return InkWell(
-      onTap: () {
-        if (qrBarData.enumType!.isNotEmpty) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => QrCreateViewPage(
-                qrBarData: qrBarData,
+    return Card(
+      margin: const EdgeInsets.all(10),
+      elevation: 1,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: (){
+          if (qrBarData.enumType!.isNotEmpty) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QrCreateViewPage(
+                  qrBarData: qrBarData,
+                ),
               ),
-            ),
-          );
-        } else {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BarCreateViewPage(
-                qrBarData: qrBarData,
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BarCreateViewPage(
+                  qrBarData: qrBarData,
+                ),
               ),
-            ),
-          );
-        }
-      },
-      child: Card(
-        margin: const EdgeInsets.all(10),
-        elevation: 1,
+            );
+          }
+        },
         child: ListTile(
           title: Text(
             qrBarData.title!,
@@ -100,28 +101,28 @@ class _HistoryViewPageState extends State<HistoryViewPage> {
           ),
           leading: qrBarData.enumType!.isNotEmpty
               ? Icon(
-                  IconData(
-                    qrBarData.iconUrl!,
-                    fontFamily: 'MaterialIcons',
-                  ),
-                )
+            IconData(
+              qrBarData.iconUrl!,
+              fontFamily: 'MaterialIcons',
+            ),
+          )
               : Image(
-                  image: ImgUtil.getAssetImage(qrBarData.imgUrl!),
-                  width: 50,
-                  height: 50,
-                ),
+            image: ImgUtil.getAssetImage(qrBarData.imgUrl!),
+            width: 50,
+            height: 50,
+          ),
           subtitle: qrBarData.contents!.isNotEmpty
               ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: qrBarData.contents!
-                      .map(
-                        (e) => Text(
-                          e,
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                      )
-                      .toList(),
-                )
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: qrBarData.contents!
+                .map(
+                  (e) => Text(
+                e,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+            )
+                .toList(),
+          )
               : Container(),
           trailing: IconButton.filledTonal(
             onPressed: () {
